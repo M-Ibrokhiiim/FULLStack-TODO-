@@ -6,7 +6,7 @@ import { useState } from 'react';
 export default function INPUT({setLoading,loading}){
     const [task,setTask] = useState('')
  
-    const addTasks =async(task:string)=>{   
+    const addTasksByButton =async(task:string)=>{   
            try{
             if(task==='') return
 
@@ -34,6 +34,37 @@ export default function INPUT({setLoading,loading}){
             console.log('Error occured while API call...')
            }
         }
+
+        const addTasksByEnter=async(task,e)=>{
+            if(e.key ==='Enter'){
+               try{
+            if(task==='') return
+
+            const res = await fetch('http://localhost:3000/newTask',{
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({name:task})
+            });
+    
+            if(!res.ok){
+                console.log(res)
+                toast.info('Task already exist!',{autoClose:2400})
+                setTask('')
+                throw new Error('Backend error!')
+             }
+             
+             setLoading(!loading)
+            const data =await res.json();
+            toast.success(data.msg,{autoClose:2400})
+
+            setTask('')
+           }catch(err){
+            console.log('Error occured while API call...')
+           }
+            }
+        }
     return(
         <>
         <Box  display={'flex'} justifyContent={'center'} mt={'20px'}> 
@@ -45,6 +76,7 @@ export default function INPUT({setLoading,loading}){
                borderRadius={'40px'}
                fontSize={'18px'}
                p={5}
+               onKeyDown={(e)=>{addTasksByEnter(task,e)}}
                color={'black'}
                onChange={(e)=>{setTask(e.target.value)}}
                value={task}
@@ -62,7 +94,7 @@ export default function INPUT({setLoading,loading}){
                 outline={'none'}
                 border={'none'}
                 _focus={{outline:'none'}}
-                onClick={()=>{addTasks(task)}}
+                onClick={()=>{addTasksByButton(task)}}
                 >
                    Add
                 </Button>
