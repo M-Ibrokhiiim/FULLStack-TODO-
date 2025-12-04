@@ -18,7 +18,7 @@ server.use(express.urlencoded({ extended: true }));
 server.use(express.json())
 
 // GET
-server.get('/home',async(req,res)=>{
+server.get('/tasks',async(req,res)=>{
     const tasks = await fs.readFile(path.join(_dirName,'DATA','TASKS.json'),'utf8')
     res.status(200).send(tasks)
 })
