@@ -8,7 +8,7 @@ export default function INPUT({setLoading,loading}){
  
     const addTasks =async(task:string)=>{   
            try{
-            if(task==='') return
+            if(task===' ' || task ==='') return
 
             const res = await fetch('http://localhost:3000/newTask',{
                 method:'POST',
