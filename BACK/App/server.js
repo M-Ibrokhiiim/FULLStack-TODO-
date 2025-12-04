@@ -29,7 +29,7 @@ server.post('/newTask',async(req,res)=>{
     const tasks = JSON.parse(DB);
 
     try{
-       const newTask = {name:arrivalTask.name};
+       const newTask = {id:tasks.length+1,name:arrivalTask.name};
 
        tasks.forEach((task)=>{
         if(task.name === arrivalTask.name){
