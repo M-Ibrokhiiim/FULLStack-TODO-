@@ -37,7 +37,6 @@ server.post('/newTask',async(req,res)=>{
             throw new Error('Task already exist!')
         }
       })
-        
         tasks.push(newTask);
         await fs.writeFile(path.join(_dirName,'DATA','TASKS.json'),JSON.stringify(tasks)+"\n");
         res.status(201).json({success:true,msg:'Task successfully added!'});
