@@ -3,7 +3,7 @@ import {ToastContainer, toast} from 'react-toastify'
 
 import { useState } from 'react';
 
-export default function INPUT(){
+export default function INPUT({setLoading,loading}){
     const [task,setTask] = useState('')
  
     const addTasks =async(task:string)=>{   
@@ -25,6 +25,7 @@ export default function INPUT(){
                 throw new Error('Backend error!')
              }
              
+             setLoading(!loading)
             const data =await res.json();
             toast.success(data.msg,{autoClose:2400})
 
@@ -33,11 +34,10 @@ export default function INPUT(){
             console.log('Error occured while API call...')
            }
         }
-
     return(
         <>
         <Box  display={'flex'} justifyContent={'center'} mt={'20px'}> 
-                <Input 
+            <Input 
                placeholder='Typing...' 
                w={{base:'320px',md:'50vw',lg:'30vw'}}
                outline={'none'}
