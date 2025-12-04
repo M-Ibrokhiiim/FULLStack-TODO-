@@ -1,10 +1,43 @@
-import {Group,Box,Text,Input, Button} from '@chakra-ui/react'
+import {Box,Input, Button} from '@chakra-ui/react'
+import {ToastContainer, toast} from 'react-toastify'
 
-export default function INPUT(){
+import { useState } from 'react';
+
+export default function INPUT({setLoading,loading}){
+    const [task,setTask] = useState('')
+ 
+    const addTasks =async(task:string)=>{   
+           try{
+            if(task==='') return
+
+            const res = await fetch('http://localhost:3000/newTask',{
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({name:task})
+            });
+    
+            if(!res.ok){
+                console.log(res)
+                toast.info('Task already exist!',{autoClose:2400})
+                setTask('')
+                throw new Error('Backend error!')
+             }
+             
+             setLoading(!loading)
+            const data =await res.json();
+            toast.success(data.msg,{autoClose:2400})
+
+            setTask('')
+           }catch(err){
+            console.log('Error occured while API call...')
+           }
+        }
     return(
         <>
         <Box  display={'flex'} justifyContent={'center'} mt={'20px'}> 
-                <Input 
+            <Input 
                placeholder='Typing...' 
                w={{base:'320px',md:'50vw',lg:'30vw'}}
                outline={'none'}
@@ -13,6 +46,9 @@ export default function INPUT(){
                fontSize={'18px'}
                p={5}
                color={'black'}
+               onChange={(e)=>{setTask(e.target.value)}}
+               value={task}
+               autoFocus
                /> 
                <Button bg={'blue.500'} 
                 w={{base:'70px',md:'100px'}} 
@@ -26,9 +62,11 @@ export default function INPUT(){
                 outline={'none'}
                 border={'none'}
                 _focus={{outline:'none'}}
+                onClick={()=>{addTasks(task)}}
                 >
                    Add
                 </Button>
+                <ToastContainer/>
         </Box>
         </>
     )
