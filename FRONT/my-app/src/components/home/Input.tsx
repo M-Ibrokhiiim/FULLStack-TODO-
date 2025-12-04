@@ -6,6 +6,8 @@ import { useState } from 'react';
 export default function INPUT({setLoading,loading}){
     const [task,setTask] = useState('')
  
+
+// EVENTS
     const addTasksByButton =async(task:string)=>{   
            try{
             if(task==='') return
@@ -35,7 +37,7 @@ export default function INPUT({setLoading,loading}){
            }
         }
 
-        const addTasksByEnter=async(task,e)=>{
+    const addTasksByEnter=async(task,e)=>{
             if(e.key ==='Enter'){
                try{
             if(task==='') return
