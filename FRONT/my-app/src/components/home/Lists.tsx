@@ -30,7 +30,7 @@ export default function LISTS({loading}){
     return(
         <>
         <Box>
-            <Container w={{base:'80vw',md:'50vw',lg:'30vw'}} mt={'50px'} border={'2px solid blue'} h={{base:'100vw',md:"60vw",lg:'30vw'}} borderRadius={'20px'}>
+            {tasks.length >0 ? <Container w={{base:'80vw',md:'50vw',lg:'30vw'}} mt={'50px'} border={'2px solid blue'} h={{base:'100vw',md:"60vw",lg:'30vw'}} borderRadius={'20px'}>
                 <Text bg={'white'} textAlign={'center'} mt='3'  fontSize={'30px'} fontWeight={'800'} textDecoration={'underline'} color={'blue.600'} fontFamily={'cursive'}>
                     Tasks
                 </Text>
@@ -53,6 +53,8 @@ export default function LISTS({loading}){
                   
                 </Box>
             </Container>
+            :'' }
+            
         </Box>
         </>
     )
