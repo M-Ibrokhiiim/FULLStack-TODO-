@@ -1,6 +1,29 @@
-import {Group,Box,Text,Input, Button} from '@chakra-ui/react'
+import {Box,Input, Button} from '@chakra-ui/react'
 
 export default function INPUT(){
+
+        const API =async()=>{
+           try{
+            const res = await fetch('http://localhost:3000/newTask',{
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({name:'Have shower1'})
+            });
+    
+            if(!res.ok){
+                  throw new Error('Backend error!')
+             }
+    
+            const data =await res.json();
+            console.log(data)
+    
+           }catch(err){
+            console.log('Error occured while API call...')
+           }
+        }
+
     return(
         <>
         <Box  display={'flex'} justifyContent={'center'} mt={'20px'}> 
@@ -26,6 +49,7 @@ export default function INPUT(){
                 outline={'none'}
                 border={'none'}
                 _focus={{outline:'none'}}
+                onClick={API}
                 >
                    Add
                 </Button>

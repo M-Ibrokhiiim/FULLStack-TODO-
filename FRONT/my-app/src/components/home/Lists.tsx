@@ -1,10 +1,9 @@
-import { useState } from "react"
+import { useState} from "react"
 import { Box, Container, Text, Stack, Checkbox, Flex} from "@chakra-ui/react"
 import Delete from '../../icons/Delete.tsx'
 import Edit from "../../icons/Edit.tsx"
 
 export default function LISTS(){
-
     const [isChecked,setChecked] =useState(false)
     const [isActive,setActive] = useState(false)
 
@@ -12,6 +11,7 @@ export default function LISTS(){
         setChecked(!isChecked)
         console.log(isChecked)
     }
+ 
     return(
         <>
         <Box>
