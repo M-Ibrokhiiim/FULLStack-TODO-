@@ -1,15 +1,17 @@
 import {Box,Input, Button} from '@chakra-ui/react'
+import { useState } from 'react';
 
 export default function INPUT(){
+    const [task,setTask] = useState('')
 
-        const API =async()=>{
+        const addTasks =async( )=>{
            try{
             const res = await fetch('http://localhost:3000/newTask',{
                 method:'POST',
                 headers:{
                     'Content-Type':'application/json'
                 },
-                body:JSON.stringify({name:'Have shower1'})
+                body:JSON.stringify({name:'Have shower11as'})
             });
     
             if(!res.ok){
@@ -23,6 +25,10 @@ export default function INPUT(){
             console.log('Error occured while API call...')
            }
         }
+
+    
+
+    
 
     return(
         <>
@@ -49,7 +55,7 @@ export default function INPUT(){
                 outline={'none'}
                 border={'none'}
                 _focus={{outline:'none'}}
-                onClick={API}
+                onClick={addTasks}
                 >
                    Add
                 </Button>
