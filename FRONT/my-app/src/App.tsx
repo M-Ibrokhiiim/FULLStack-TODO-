@@ -11,7 +11,7 @@ const [loading,setLoading] =useState(false)
      <Box h={{base:'170vw',sm:'100vw',lg:'50vw'}} w={{base:'90vw',md:'70vw'}} display={'flex'} flexDirection={'column'} >
         <TITLE/>
         <INPUT setLoading={setLoading} loading={loading}/> 
-        <LISTS loading={loading}/>
+        <LISTS loading={loading} setLoading={setLoading}/>
      </Box>
     </>
   )

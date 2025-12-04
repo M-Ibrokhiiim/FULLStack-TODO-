@@ -3,7 +3,7 @@ import { Box, Container, Text, Checkbox, Flex} from "@chakra-ui/react"
 import Delete from '../../icons/Delete.tsx'
 import Edit from "../../icons/Edit.tsx"
 
-export default function LISTS({loading}){
+export default function LISTS({loading,setLoading}){
     const [isChecked,setChecked] =useState(false)
 
     const [tasks,setTasks] = useState([])
@@ -45,7 +45,7 @@ export default function LISTS({loading}){
                     </Checkbox.Root>
                     <Flex  alignItems={'center'} w={'70px'} justifyContent={'space-between'}>
                         <Edit/>
-                        <Delete/>
+                        <Delete id={task.id} setLoading={setLoading} loading={loading}/>
                     </Flex>
                   </Flex>
                         )

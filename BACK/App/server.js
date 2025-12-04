@@ -40,10 +40,22 @@ server.post('/newTask',async(req,res)=>{
         
         tasks.push(newTask);
         await fs.writeFile(path.join(_dirName,'DATA','TASKS.json'),JSON.stringify(tasks)+"\n");
-        res.json({success:true,msg:'Task successfully added!'});
+        res.status(201).json({success:true,msg:'Task successfully added!'});
     }catch(err){
        console.log(err);
     } 
+})
+
+// DELETE
+server.delete('/removalTask/:id',async(req,res)=>{
+   const DB = await fs.readFile(path.join(_dirName,'DATA','TASKS.json'),'utf8');
+   const tasks = JSON.parse(DB)
+   
+   const filteredTasks = tasks.filter((task)=>{
+     return task.id !== Number(req.params.id)
+   })
+   await fs.writeFile(path.join(_dirName,'DATA','TASKS.json'),JSON.stringify(filteredTasks))
+   res.json({success:true,msg:'Task removed!'})
 })
 
 server.listen(3000,()=>{
