@@ -39,9 +39,8 @@ export default function LISTS({loading,setLoading}){
                         return(
                             <Flex mt='2'>
                     <Checkbox.Root cursor={'pointer'} w={{md:"450px"}}>
-                        <Checkbox.HiddenInput    onChange={checked}/>
-                        <Checkbox.Control cursor={'pointer'}/>
-                        <Checkbox.Label fontSize={{base:'15px',md:'22px'}} textDecoration={isChecked ? 'line-through' :'none'}>{task.name}</Checkbox.Label> 
+                         <input type="checkbox" style={{width:"30px",height:"20px"}} checked={task.isDone} />
+                        <Checkbox.Label fontSize={{base:'15px',md:'22px'}} textDecoration={task.isDone ? 'line-through' :'none'}>{task.name}</Checkbox.Label> 
                     </Checkbox.Root>
                     <Flex  alignItems={'center'} w={'70px'} justifyContent={'space-between'}>
                         <Edit/>
