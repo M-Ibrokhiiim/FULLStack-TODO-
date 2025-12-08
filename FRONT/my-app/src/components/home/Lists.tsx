@@ -1,16 +1,22 @@
 import { useState,useEffect} from "react"
-import { Box, Container, Text, Checkbox, Flex} from "@chakra-ui/react"
+import { Box, Container, Text, Checkbox, Flex,Input} from "@chakra-ui/react"
 import Delete from '../../icons/Delete.tsx'
 import Edit from "../../icons/Edit.tsx"
 
 export default function LISTS({loading,setLoading}){
-    const [isChecked,setChecked] =useState(false)
+    const [isChecked,setChecked] =useState(false);
+    const [isEdited,setEdited] = useState(false);
+    const [editableTask,setEditable] = useState('')
+
+
 
     const [tasks,setTasks] = useState([])
     const checked=()=>{
         setChecked(!isChecked)
         console.log(isChecked)
     }
+
+
 
 //  TASKS API
     const TASKS =async()=>{
@@ -23,7 +29,7 @@ export default function LISTS({loading,setLoading}){
           console.log('Error is occuring while loading tasks...')
         }
     }
-    
+//  PUT request   
     const taskIsDone = async(id:number)=>{
         try{
             const response = await fetch(`http://localhost:3000/task/${id}/done`,{
@@ -55,13 +61,25 @@ export default function LISTS({loading,setLoading}){
                 <Box h={{base:'70%',lg:'80%'}} mt='20px' overflow={'scroll'} display={'flex'} flexDirection={'column'}>
                     {tasks.map(task=>{
                         return(
-                            <Flex mt='2'  justifyContent={'space-between'}>
-                    <Checkbox.Root cursor={'pointer'} overflow={'scroll'} w={{base:"200px", md:"450px"}} onClick={()=>{taskIsDone(task.id)}}>
-                         <input type="checkbox" style={{width:"30px",height:"20px"}} checked={task.isDone}/>
-                        <Checkbox.Label fontSize={{base:'15px',md:'22px'}} textDecoration={task.isDone ? 'line-through' :'none'}>{task.name}</Checkbox.Label> 
-                    </Checkbox.Root>
-                    <Flex  alignItems={'center'} w={'70px'} bg='white' justifyContent={'space-between'}>
-                        <Edit/>
+                    <Flex mt='2'  justifyContent={'space-between'}>
+                        
+                         {!isEdited ?
+                         <Checkbox.Root cursor={'pointer'} overflow={'scroll'} w={{base:"200px", md:"450px"}} onClick={()=>{taskIsDone(task.id)}}>
+                           <input type="checkbox" style={{width:"30px",height:"20px"}} checked={task.isDone}/>
+                            <Checkbox.Label fontSize={{base:'15px',md:'22px'}} textDecoration={task.isDone ? 'line-through' :'none'}>{task.name}</Checkbox.Label> 
+                          </Checkbox.Root>  
+                            : <>
+                            <Input borderTop={'none'} borderRight={'none'} value={editableTask} onChange={(e)=>{setEditable(e.target.value)}} autoFocus borderLeft={'none'} outline={'none'} borderRadius={'none'} /> 
+                            </>
+                           }
+                        
+                    
+                    <Flex   alignItems={'center'} w={'70px'} bg='white' justifyContent={'space-between'}>
+                        <Edit setEdited ={setEdited}
+                         isEdited={isEdited} 
+                         setEditable={setEditable}
+                         inputField={task.name}
+                         />
                         <Delete id={task.id} setLoading={setLoading} loading={loading}/>
                     </Flex>
                   </Flex>
