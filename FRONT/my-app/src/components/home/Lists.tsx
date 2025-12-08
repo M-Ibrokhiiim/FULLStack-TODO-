@@ -34,7 +34,7 @@ export default function LISTS({loading,setLoading}){
                 <Text bg={'white'} textAlign={'center'} mt='3'  fontSize={'30px'} fontWeight={'800'} textDecoration={'underline'} color={'blue.600'} fontFamily={'cursive'}>
                     Tasks
                 </Text>
-                <Box bg='white' h={{base:'80%',lg:'85%'}} mt='20px' overflow={'scroll'}>
+                <Box h={{base:'80%',lg:'80%'}} mt='20px' overflow={'scroll'}>
                     {tasks.map(task=>{
                         return(
                             <Flex mt='2'>
