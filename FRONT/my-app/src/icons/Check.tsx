@@ -1,7 +1,8 @@
-export default function CHECK({isEdited,setEdited,taskId,taskName}){
+export default function CHECK({isEdited,setEdited,taskId,taskName,uiUpdater}){
 
     const taskEditor = async(id:number,task:string)=>{
         setEdited(!isEdited)
+    
         try{
            const res = await fetch(`http://localhost:3000/task/${id}/edited`,{
             method:'PUT',
@@ -16,7 +17,6 @@ export default function CHECK({isEdited,setEdited,taskId,taskName}){
            }
            uiUpdater()
            const data = await res.json();
-           
         }catch(err){
             console.log(err)
         }

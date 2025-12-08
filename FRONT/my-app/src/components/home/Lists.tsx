@@ -50,7 +50,8 @@ export default function LISTS({loading,setLoading}){
     }
 
  const taskEditorByEnterBTN =async(e,id:number,name:string)=>{
-    if(e.key === 'Enter'){
+
+    if(e.key === 'Enter' && name.length > 0){
     try{
        const res = await fetch(`http://localhost:3000/task/${id}/edited`,{
         method:'PUT',
@@ -86,8 +87,7 @@ export default function LISTS({loading,setLoading}){
                     {tasks.map(task=>{
                         return(
                     <Flex mt='2'  justifyContent={'space-between'}>
-                        
-                         {!isEdited ?
+                         {!isEdited  ?
                          <Checkbox.Root cursor={'pointer'} overflow={'scroll'} w={{base:"200px", md:"450px"}} onClick={()=>{taskIsDone(task.id)}}>
                            <input type="checkbox" style={{width:"30px",height:"20px"}} checked={task.isDone}/>
                             <Checkbox.Label fontSize={{base:'15px',md:'22px'}} textDecoration={task.isDone ? 'line-through' :'none'}>{task.name}</Checkbox.Label> 
@@ -97,13 +97,13 @@ export default function LISTS({loading,setLoading}){
                             </>
                            }
                         
-                    
                     <Flex   alignItems={'center'} w={'70px'} bg='white' justifyContent={'space-between'}>
                         {isEdited ? <CHECK
                           taskId = {task.id}
                           taskName={editableTask}
                           isEdited={isEdited} 
                           setEdited={setEdited}
+                          uiUpdater={TASKS}
                         />  
                           :<Edit setEdited ={setEdited}
                          isEdited={isEdited} 
