@@ -70,13 +70,15 @@ export default function LISTS({loading,setLoading}){
                             <Checkbox.Label fontSize={{base:'15px',md:'22px'}} textDecoration={task.isDone ? 'line-through' :'none'}>{task.name}</Checkbox.Label> 
                           </Checkbox.Root>  
                             : <>
-                            <Input borderTop={'none'} fontSize={'20px'} borderRight={'none'} value={editableTask} onChange={(e)=>{setEditable(e.target.value)}} autoFocus borderLeft={'none'} outline={'none'} borderRadius={'none'} /> 
+                            <Input borderTop={'none'}  fontSize={'20px'} borderRight={'none'} value={editableTask} onChange={(e)=>{setEditable(e.target.value)}} autoFocus borderLeft={'none'} outline={'none'} borderRadius={'none'} /> 
                             </>
                            }
                         
                     
                     <Flex   alignItems={'center'} w={'70px'} bg='white' justifyContent={'space-between'}>
                         {isEdited ? <CHECK
+                          taskId = {task.id}
+                          taskName={editableTask}
                           isEdited={isEdited} 
                           setEdited={setEdited} 
                         />  
