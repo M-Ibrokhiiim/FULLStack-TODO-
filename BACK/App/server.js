@@ -29,7 +29,7 @@ server.post('/newTask',async(req,res)=>{
     const tasks = JSON.parse(DB);
 
     try{
-       const newTask = {id:tasks.length+1,name:arrivalTask.name};
+       const newTask = {id:tasks.length+1,name:arrivalTask.name,isDone:false};
 
        tasks.forEach((task)=>{
         if(task.name === arrivalTask.name){
@@ -38,7 +38,7 @@ server.post('/newTask',async(req,res)=>{
         }
       })
         tasks.push(newTask);
-        await fs.writeFile(path.join(_dirName,'DATA','TASKS.json'),JSON.stringify(tasks)+"\n");
+        await fs.writeFile(path.join(_dirName,'DATA','TASKS.json'),JSON.stringify(tasks.reverse()));
         res.status(201).json({success:true,msg:'Task successfully added!'});
     }catch(err){
        console.log(err);
@@ -57,6 +57,43 @@ server.delete('/removalTask/:id',async(req,res)=>{
    res.json({success:true,msg:'Task removed!'})
 })
 
+// PUT for TASKDONE
+server.put('/task/:id/done',async(req,res)=>{
+     
+       const DB = await fs.readFile(path.join(_dirName,'DATA','TASKS.json'),'utf8');
+
+       const filteredData = JSON.parse(DB).filter((task)=>{
+        return task.id !==Number(req.params.id)
+       })
+    
+       const updatedTask = JSON.parse(DB).find((task)=>{
+         return task.id === Number(req.params.id)
+       });
+       
+       updatedTask.isDone = !updatedTask.isDone;
+
+       filteredData.push(updatedTask);
+       await fs.writeFile(path.join(_dirName,'DATA','TASKS.json'),JSON.stringify(filteredData.sort((a,b)=>a.id-b.id)))
+    
+       res.json({success:true,msg:'Task finished!'})
+})
+
+// PUT for task editing.
+server.put('/task/:id/edited',async(req,res)=>{
+    const DB = await fs.readFile(path.join(_dirName,'DATA','TASKS.json'),'utf8');
+    
+    const JSONDB = JSON.parse(DB);
+    const FILTEREDDB = JSONDB.filter(task=>task.id !==Number(req.params.id));
+
+    const editableTASK = JSONDB.find(task=>task.id === Number(req.params.id))
+    editableTASK.name = req.body.name;
+    
+    FILTEREDDB.push(editableTASK);
+
+    await fs.writeFile(path.join(_dirName,'DATA','TASKS.json'),JSON.stringify(FILTEREDDB.sort((a,b)=>a.id - b.id)))
+
+    res.json({success:true,msg:'Successfully edited!'})
+})
 server.listen(3000,()=>{
     console.log('Server on PORT:3000')
 })
