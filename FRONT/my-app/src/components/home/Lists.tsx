@@ -52,7 +52,7 @@ export default function LISTS({loading,setLoading}){
                 <Text bg={'white'} textAlign={'center'} mt='3'  fontSize={'30px'} fontWeight={'800'} textDecoration={'underline'} color={'blue.600'} fontFamily={'cursive'}>
                     Tasks
                 </Text>
-                <Box h={{base:'70%',lg:'80%'}} mt='20px' overflow={'scroll'} bg='red' display={'flex'} flexDirection={'column'}>
+                <Box h={{base:'70%',lg:'80%'}} mt='20px' overflow={'scroll'} display={'flex'} flexDirection={'column'}>
                     {tasks.map(task=>{
                         return(
                             <Flex mt='2'  justifyContent={'space-between'}>
