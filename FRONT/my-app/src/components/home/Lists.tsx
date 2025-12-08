@@ -2,6 +2,7 @@ import { useState,useEffect} from "react"
 import { Box, Container, Text, Checkbox, Flex,Input} from "@chakra-ui/react"
 import Delete from '../../icons/Delete.tsx'
 import Edit from "../../icons/Edit.tsx"
+import CHECK from "../../icons/Check.tsx"
 
 export default function LISTS({loading,setLoading}){
     const [isChecked,setChecked] =useState(false);
@@ -69,17 +70,22 @@ export default function LISTS({loading,setLoading}){
                             <Checkbox.Label fontSize={{base:'15px',md:'22px'}} textDecoration={task.isDone ? 'line-through' :'none'}>{task.name}</Checkbox.Label> 
                           </Checkbox.Root>  
                             : <>
-                            <Input borderTop={'none'} borderRight={'none'} value={editableTask} onChange={(e)=>{setEditable(e.target.value)}} autoFocus borderLeft={'none'} outline={'none'} borderRadius={'none'} /> 
+                            <Input borderTop={'none'} fontSize={'20px'} borderRight={'none'} value={editableTask} onChange={(e)=>{setEditable(e.target.value)}} autoFocus borderLeft={'none'} outline={'none'} borderRadius={'none'} /> 
                             </>
                            }
                         
                     
                     <Flex   alignItems={'center'} w={'70px'} bg='white' justifyContent={'space-between'}>
-                        <Edit setEdited ={setEdited}
+                        {isEdited ? <CHECK
+                          isEdited={isEdited} 
+                          setEdited={setEdited} 
+                        />  
+                          :<Edit setEdited ={setEdited}
                          isEdited={isEdited} 
                          setEditable={setEditable}
                          inputField={task.name}
                          />
+                          }
                         <Delete id={task.id} setLoading={setLoading} loading={loading}/>
                     </Flex>
                   </Flex>
