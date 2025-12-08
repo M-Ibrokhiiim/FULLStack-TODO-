@@ -49,6 +49,29 @@ export default function LISTS({loading,setLoading}){
         }
     }
 
+ const taskEditorByEnterBTN =async(e,id:number,name:string)=>{
+    if(e.key === 'Enter'){
+    try{
+       const res = await fetch(`http://localhost:3000/task/${id}/edited`,{
+        method:'PUT',
+        headers:{
+            'Content-Type':'application/json'
+        },
+        body:JSON.stringify({name:name})
+       })
+
+       if(!res.ok){
+        throw new Error('Error occured white editing!')
+       }
+       TASKS()
+       const data = await res.json();
+
+       setEdited(!isEdited)
+    }catch(err){
+        console.log(err)
+    }
+    }
+ }   
     useEffect(()=>{
          TASKS()
     },[loading])
@@ -70,7 +93,7 @@ export default function LISTS({loading,setLoading}){
                             <Checkbox.Label fontSize={{base:'15px',md:'22px'}} textDecoration={task.isDone ? 'line-through' :'none'}>{task.name}</Checkbox.Label> 
                           </Checkbox.Root>  
                             : <>
-                            <Input borderTop={'none'}  fontSize={'20px'} borderRight={'none'} value={editableTask} onChange={(e)=>{setEditable(e.target.value)}} autoFocus borderLeft={'none'} outline={'none'} borderRadius={'none'} /> 
+                            <Input borderTop={'none'}  fontSize={'20px'} borderRight={'none'} onKeyDown={(e)=>{taskEditorByEnterBTN(e,task.id,editableTask)}} value={editableTask} onChange={(e)=>{setEditable(e.target.value)}} autoFocus borderLeft={'none'} outline={'none'} borderRadius={'none'} /> 
                             </>
                            }
                         
@@ -80,7 +103,7 @@ export default function LISTS({loading,setLoading}){
                           taskId = {task.id}
                           taskName={editableTask}
                           isEdited={isEdited} 
-                          setEdited={setEdited} 
+                          setEdited={setEdited}
                         />  
                           :<Edit setEdited ={setEdited}
                          isEdited={isEdited} 
