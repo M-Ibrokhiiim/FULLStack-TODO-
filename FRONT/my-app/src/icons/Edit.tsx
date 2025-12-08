@@ -1,10 +1,11 @@
 import { useState } from "react"
 
-export default function Edit({setEdited,isEdited,setEditable,inputField}){
+export default function Edit({setEdited,isEdited,setEditable,inputField,editableTASK,taskID}){
    const [isActive,setActive] = useState(false)
    const Click = ()=>{
     setEdited(!isEdited);
-    setEditable(inputField)
+    setEditable(inputField);
+    editableTASK(taskID);
     setActive(true);
     setTimeout(()=>{
         setActive(false)

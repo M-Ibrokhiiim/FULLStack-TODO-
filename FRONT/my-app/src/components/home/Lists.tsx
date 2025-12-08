@@ -8,6 +8,7 @@ export default function LISTS({loading,setLoading}){
     const [isChecked,setChecked] =useState(false);
     const [isEdited,setEdited] = useState(false);
     const [editableTask,setEditable] = useState('')
+    const [isEditableTASK,setIsEditableTASK] = useState(0)
 
 
 
@@ -109,6 +110,8 @@ export default function LISTS({loading,setLoading}){
                          isEdited={isEdited} 
                          setEditable={setEditable}
                          inputField={task.name}
+                         editableTASK={setIsEditableTASK}
+                         taskID={task.id}
                          />
                           }
                         <Delete id={task.id} setLoading={setLoading} loading={loading}/>
