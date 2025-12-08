@@ -53,7 +53,7 @@ export default function LISTS({loading,setLoading}){
                     Tasks
                 </Text>
                 <Box h={{base:'70%',lg:'80%'}} mt='20px' overflow={'scroll'} bg='red' display={'flex'} flexDirection={'column'}>
-                    {tasks.reverse().map(task=>{
+                    {tasks.map(task=>{
                         return(
                             <Flex mt='2'  justifyContent={'space-between'}>
                     <Checkbox.Root cursor={'pointer'} overflow={'scroll'} w={{base:"200px", md:"450px"}} onClick={()=>{taskIsDone(task.id)}}>
