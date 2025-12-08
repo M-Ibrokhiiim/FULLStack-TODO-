@@ -3,6 +3,8 @@ import { Box, Container, Text, Checkbox, Flex,Input} from "@chakra-ui/react"
 import Delete from '../../icons/Delete.tsx'
 import Edit from "../../icons/Edit.tsx"
 import CHECK from "../../icons/Check.tsx"
+import {ToastContainer, toast} from 'react-toastify'
+
 
 export default function LISTS({loading,setLoading}){
     const [isChecked,setChecked] =useState(false);
@@ -67,6 +69,9 @@ export default function LISTS({loading,setLoading}){
        }
        TASKS()
        const data = await res.json();
+       toast.success(data.msg,{
+        autoClose:1500
+       })
 
        setEdited(!isEdited)
     }catch(err){
