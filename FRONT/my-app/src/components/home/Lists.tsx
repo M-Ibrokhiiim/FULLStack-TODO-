@@ -8,7 +8,7 @@ export default function LISTS({loading,setLoading}){
     const [isChecked,setChecked] =useState(false);
     const [isEdited,setEdited] = useState(false);
     const [editableTask,setEditable] = useState('')
-    const [isEditableTASK,setIsEditableTASK] = useState(0)
+    const [isEditableTASK,setIsEditableTASK] = useState(null);
 
 
 
@@ -23,8 +23,8 @@ export default function LISTS({loading,setLoading}){
 //  TASKS API
     const TASKS =async()=>{
         try{
-            const response = await fetch('http://localhost:3000/tasks')
-            const data = await response.json()
+            const response = await fetch('http://localhost:3000/tasks');
+            const data = await response.json();
             setTasks(data)
             console.log(data)
         }catch(err){
@@ -88,18 +88,28 @@ export default function LISTS({loading,setLoading}){
                     {tasks.map(task=>{
                         return(
                     <Flex mt='2'  justifyContent={'space-between'}>
-                         {!isEdited  ?
+                         {!isEdited ?
                          <Checkbox.Root cursor={'pointer'} overflow={'scroll'} w={{base:"200px", md:"450px"}} onClick={()=>{taskIsDone(task.id)}}>
                            <input type="checkbox" style={{width:"30px",height:"20px"}} checked={task.isDone}/>
                             <Checkbox.Label fontSize={{base:'15px',md:'22px'}} textDecoration={task.isDone ? 'line-through' :'none'}>{task.name}</Checkbox.Label> 
                           </Checkbox.Root>  
                             : <>
-                            <Input borderTop={'none'}  fontSize={'20px'} borderRight={'none'} onKeyDown={(e)=>{taskEditorByEnterBTN(e,task.id,editableTask)}} value={editableTask} onChange={(e)=>{setEditable(e.target.value)}} autoFocus borderLeft={'none'} outline={'none'} borderRadius={'none'} /> 
+                            {
+                                isEditableTASK === task.id ? <Input borderTop={'none'} key={task.id} fontSize={'20px'} borderRight={'none'} onKeyDown={(e)=>{taskEditorByEnterBTN(e,task.id,editableTask)}} value={editableTask} onChange={(e)=>{setEditable(e.target.value)}} autoFocus borderLeft={'none'} outline={'none'} borderRadius={'none'} /> 
+                                : <>
+                                <Flex mt='2'  justifyContent={'space-between'}>
+                                  <Checkbox.Root cursor={'pointer'} overflow={'scroll'} w={{base:"200px", md:"250px"}} onClick={()=>{taskIsDone(task.id)}}>
+                                    <input type="checkbox" style={{width:"30px",height:"20px"}} checked={task.isDone}/>
+                                    <Checkbox.Label fontSize={{base:'15px',md:'22px'}} textDecoration={task.isDone ? 'line-through' :'none'}>{task.name}</Checkbox.Label> 
+                                  </Checkbox.Root>           
+                                </Flex>
+                                </>
+                            }
                             </>
                            }
                         
                     <Flex   alignItems={'center'} w={'70px'} bg='white' justifyContent={'space-between'}>
-                        {isEdited ? <CHECK
+                        { isEdited && isEditableTASK ===task.id ? <CHECK
                           taskId = {task.id}
                           taskName={editableTask}
                           isEdited={isEdited} 
